@@ -1,0 +1,161 @@
+<link rel="stylesheet" type="text/css" href="Style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartisius Tech</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cartisius Tech</h1>
+        <nav>
+            <ul>
+                <li><a href="#introduction" class="tab-link" data-tab="introduction">Introduction to Our Company</a></li>
+                <li><a href="#admission-rate-prediction" class="tab-link" data-tab="admission-rate-prediction">Admission Rate Prediction</a></li>
+                <li><a href="#college-application-advice" class="tab-link" data-tab="college-application-advice">College Application Advice</a></li>
+                <li><a href="#college-application-forum" class="tab-link" data-tab="college-application-forum">College Application Forum</a></li>
+                <li><a href="#personal-statement-grading" class="tab-link" data-tab="personal-statement-grading">Personal Statement Grading</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="introduction" class="tab-content active">
+            <h2>Our Company</h2>
+            <p>Our model is aimed to predict admission rates for university applications. Through amounts of historical data and statistics, we use machine learning to create a model to anticipate a student’s admission rate for a particular university based on the information and personal statement that the user provides. By taking advantage of our model, we can help students to increase application transparency, have better preparation, and reduce stress.</p>
+            <h3>Meet Our Team</h3>
+            <ul>
+                <li>Haodong Zhang - haodoz4@uci.edu - Major: Computer Science, Minor: Statistic</li>
+                <li>Yuxue Zhou - yuxuez2@uci.edu - Major: Computer Science and BIM (Business Information Management)</li>
+                <li>Duoduo Yao - duoduoy1@uci.edu - Major: BIM (Business Information Management)</li>
+                <li>Zhe Yuan - zhey16@uci.edu - Major: Computer Science, Minor: Statistic</li>
+                <li>Arthur Kunzler - arthur.gabriel.k@gmail.com - Major: N/A</li>
+                <li>Guilherme Dornelles - guiguipdt@gmail.com - Major: N/A</li>
+            </ul>
+        </section>
+
+        <section id="admission-rate-prediction" class="tab-content">
+            <h2>Admission Rate Prediction</h2>
+            <form action="/" method="POST">
+                <label for="sat-gpa">SAT GPA:</label>
+                <input type="text" id="sat-gpa" name="sat-gpa">
+                <label for="extracurricular-activities">Extracurricular Activities:</label>
+                <textarea id="extracurricular-activities" name="extracurricular-activities"></textarea>
+                <label for="personal-statement">Personal Statement:</label>
+                <textarea id="personal-statement" name="personal-statement"></textarea>
+                <!-- Add more features according to the description -->
+                <button type="submit" name="action" value="prediction">Calculate Admission Rate</button>
+            </form>
+        </section>
+
+        <section id="college-application-advice" class="tab-content">
+            <h2>College Application Advice</h2>
+            <form action="/" method="POST">
+                <label for="sat-gpa-advice">SAT GPA:</label>
+                <input type="text" id="sat-gpa-advice" name="sat-gpa-advice">
+                <label for="extracurricular-activities-advice">Extracurricular Activities:</label>
+                <textarea id="extracurricular-activities-advice" name="extracurricular-activities-advice"></textarea>
+                <label for="personal-statement-advice">Personal Statement:</label>
+                <textarea id="personal-statement-advice" name="personal-statement-advice"></textarea>
+                <!-- Add more features according to the description -->
+                <button type="submit" name="action" value="advice">Generate College List</button>
+            </form>
+        </section>
+
+        <section id="college-application-forum" class="tab-content">
+            <h2>College Application Forum</h2>
+            <form action="/" method="POST" id="forum-post-form">
+                <label for="post-title">Title:</label>
+                <input type="text" id="post-title" name="post-title" required>
+                <label for="post-content">Content:</label>
+                <textarea id="post-content" name="post-content" required></textarea>
+                <label for="post-author">Author:</label>
+                <input type="text" id="post-author" name="post-author" required>
+                <button type="submit" name="action" value="forum">Submit Post</button>
+            </form>
+            <div id="forum-posts-container"></div>
+        </section>
+
+        <section id="personal-statement-grading" class="tab-content">
+            <h2>Personal Statement Grading</h2>
+            <form action="/" method="POST">
+                <label for="personal-statement-upload">Upload Personal Statement:</label>
+                <input type="file" id="personal-statement-upload" name="personal-statement-upload">
+                <button type="submit" name="action" value="grading">Grade and Get Advice</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Cartisius Tech. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        function showTabContent(tabId) {
+            tabContents.forEach(tabContent => {
+                if (tabContent.id === tabId) {
+                    tabContent.classList.add('active');
+                } else {
+                    tabContent.classList.remove('active');
+                }
+            });
+        }
+
+        tabLinks.forEach(tabLink => {
+            tabLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabId = e.target.dataset.tab;
+                showTabContent(tabId);
+            });
+        });
+        const forumPostForm = document.getElementById('forum-post-form');
+        const forumPostsContainer = document.getElementById('forum-posts-container');
+
+        function createPostElement(title, content, author) {
+            const post = document.createElement('div');
+            post.classList.add('forum-post');
+
+            const postTitle = document.createElement('h3');
+            postTitle.textContent = title;
+
+            const postContent = document.createElement('p');
+            postContent.textContent = content;
+
+            const postAuthor = document.createElement('p');
+            postAuthor.textContent = `By: ${author}`;
+
+            post.appendChild(postTitle);
+            post.appendChild(postContent);
+            post.appendChild(postAuthor);
+
+            return post;
+        }
+
+        forumPostForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('post-title').value;
+            const content = document.getElementById('post-content').value;
+            const author = document.getElementById('post-author').value;
+
+            const postElement = createPostElement(title, content, author);
+            forumPostsContainer.prepend(postElement);
+
+            forumPostForm.reset();
+        });
+
+    </script>
+</body>
+</html>
