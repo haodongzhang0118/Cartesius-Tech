@@ -14,7 +14,7 @@ def process():
     if action == "prediction":
         sat_gpa = request.form["sat-gpa"].split()
         sat_english, sat_math = int(sat_gpa[0]) // 2, int(sat_gpa[0]) // 2
-        gpa = int(sat_gpa[1])
+        gpa = float(sat_gpa[1])
         activity = int(request.form['extracurricular-activities'])
         personal_statement = int(request.form['personal-statement'])
         print(fdp.make_prediction(gpa, sat_english, sat_math, activity, personal_statement))
