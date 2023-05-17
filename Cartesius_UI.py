@@ -76,7 +76,7 @@ def admission_rate_prediction():
     """
 
     # Retrieving the file path of the pdf file
-    filePath = request.form["pdf_file_path_personal_statement"] # parameter name = pdf_file_path
+    filePath = request.form["pdf_file_path_personal_statement"] # parameter name = pdf_file_path_personal_statement
 
     # Generating suggestions
     grade, correct_context, final_context, evaluation, suggestion = cr.correct_and_revise(filePath)
@@ -97,7 +97,7 @@ def admission_rate_prediction():
     """
 
     # Retrieving the file path of the pdf file
-    filePath = request.form["pdf_file_path_activity"] # parameter name = pdf_file_path
+    filePath = request.form["pdf_file_path_activity"] # parameter name = pdf_file_path_activity
 
     # Generating suggestions
     grade, suggestion = ag.grade_activity(filePath)
