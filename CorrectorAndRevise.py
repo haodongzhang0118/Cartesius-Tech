@@ -48,4 +48,4 @@ def correct_and_revise(file):
     )
 
     reply = sequential_chain({'context': context})
-    return reply["correct_context"], reply["final_context"], evaluations, suggestions
+    return 90, reply["correct_context"], reply["final_context"], evaluations, suggestions
