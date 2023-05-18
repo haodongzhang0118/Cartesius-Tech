@@ -7,6 +7,25 @@ app = Flask(__name__)
 
 forumInfo = {}
 
+gender_dict = {"Male": 2.0, 
+               "Female": 0.0, 
+               "Transgender": 1.0}
+
+race_dict = {"Hispanic": 4.0, 
+             "Asian": 2.0, 
+             "White": 7.0, 
+             "International": 5.0,
+             "Domestic Unknown": 3.0, 
+             "African American": 0.0, 
+             "Pacific Islander": 6.0, 
+             "American Indian": 1.0
+             }
+
+residency_dict = {"CA resident": 0.0, 
+                  "Internation": 1.0, 
+                  "Non-resident domestic": 2.0, 
+                  "unknown": 3.0}
+
 @app.route("/")
 def home():
     return render_template("Cartisius_Tech_WebPage.html")
@@ -27,12 +46,12 @@ def admission_rate_prediction():
     sat_essay = int(data["sat_essay"]) # parameter name = sat_essay
     activity_score = int(data["activity_score"]) # parameter name = activity_score
     personal_statement_score = int(data["personal_statement_score"]) # parameter name = personal_statement_score
-    residency = int(data["residency"]) # parameter name = residency
-    race = int(data["race"]) # parameter name = race
-    gender = int(data["gender"]) # parameter name = gender
+    residency = data["residency"] # parameter name = residency
+    race = data["race"] # parameter name = race
+    gender = data["gender"] # parameter name = gender
 
     # Generating the result
-    prediction = fdp.make_prediction(gpa, sat_eng, sat_math, sat_essay, activity_score, personal_statement_score, residency, race, gender)
+    prediction = fdp.make_prediction(gpa, sat_eng, sat_math, sat_essay, activity_score, personal_statement_score, residency_dict[residency], race_dict[race], gender_dict[gender])
 
     return prediction
 
