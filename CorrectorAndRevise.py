@@ -1,4 +1,4 @@
-from pdfReader import readPDF
+from pdfReader import readPDF, get_pdf_content
 from PersonalStatementSuggestion import evaluations_and_suggestions
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain, SequentialChain
@@ -16,7 +16,7 @@ def correct_and_revise(file):
     return: str, str, str, str
     """
     context = readPDF(file)
-    evaluations, suggestions = evaluations_and_suggestions(file)
+    evaluations, suggestions, grade = evaluations_and_suggestions(file)
 
     correct_template = """
     I want you to act as a mean grammar teach that check the grammar in the paragraph {context} and return the result.
@@ -48,4 +48,4 @@ def correct_and_revise(file):
     )
 
     reply = sequential_chain({'context': context})
-    return 90, reply["correct_context"], reply["final_context"], evaluations, suggestions
+    return grade, reply["correct_context"], reply["final_context"], evaluations, suggestions
