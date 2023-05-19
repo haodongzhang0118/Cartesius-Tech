@@ -51,6 +51,7 @@ def admission_rate_prediction():
     gender = data["gender"] # parameter name = gender
 
     # Generating the result
+    print((gpa, sat_eng, sat_math, sat_essay, activity_score, personal_statement_score, residency_dict[residency], race_dict[race], gender_dict[gender]))
     prediction = fdp.make_prediction(gpa, sat_eng, sat_math, sat_essay, activity_score, personal_statement_score, residency_dict[residency], race_dict[race], gender_dict[gender])
 
     return prediction
