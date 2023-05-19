@@ -1,4 +1,4 @@
-from pdfReader import readPDF
+from pdfReader import readPDF, get_pdf_content
 from langchain import OpenAI
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferMemory
@@ -9,8 +9,16 @@ from langchain.schema import (
     SystemMessage
 )
 import os
+import re
 
 os.environ["OPENAI_API_KEY"] = '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'
+
+def get_first_number(s):
+    match = re.search(r'\d+', s)
+    if match:
+        return int(match.group(0))
+    else:
+        return s
 
 
 def create_suggestions(file):
@@ -48,7 +56,13 @@ def create_suggestions(file):
     result.append(conversation.run(Queries[3]))
     result.append(conversation.run(Queries[4]))
     result.append(conversation.run(Queries[5]))
-    return result
+
+    llm_grade = OpenAI(model_name="text-davinci-003", max_tokens=1024)
+    Grade_question = """Here is the personal statement that you need to read, and  I need you to grade it from 0 to 100.
+    You should just answer the number of score without anything else""" + content
+    answer = llm_grade(Grade_question)
+    grade_num = get_first_number(answer)
+    return result, grade_num
 
 
 def get_the_final_evaluations(result):
@@ -72,7 +86,7 @@ def evaluations_and_suggestions(file):
     return: str(evaluation) , str(suggestion)
     """
     chat = ChatOpenAI(temperature=0)
-    result = create_suggestions(file)
+    result, grade = create_suggestions(file)
     answer = get_the_final_evaluations(result)
     batch_message = [
         [
@@ -88,4 +102,4 @@ def evaluations_and_suggestions(file):
         ]
     ]
     need = chat.generate(batch_message)
-    return need.generations[1][0].text, need.generations[0][0].text
+    return need.generations[1][0].text, need.generations[0][0].text, grade
